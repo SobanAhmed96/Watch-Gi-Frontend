@@ -52,18 +52,21 @@ const Details = () => {
             <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
 
             {/* Product Link Display */}
-            {product.links && (
-              <div className="mb-4">
-                <a
-                  href={product?.links || "No Links"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline break-all"
-                >
-                  {product.links}
-                </a>
-              </div>
-            )}
+            <div className="mb-4">
+  {product.links ? (
+    <a
+      href={product.links}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline break-all"
+    >
+      {product.links}
+    </a>
+  ) : (
+    <span className="text-gray-500">No Links</span>
+  )}
+</div>
+
           </div>
 
           {/* Buy Now Button */}
