@@ -55,7 +55,7 @@ const Details = () => {
             {product.links && (
               <div className="mb-4">
                 <a
-                  href={product.links}
+                  href={product?.links || "No Links"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline break-all"
