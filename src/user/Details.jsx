@@ -70,7 +70,6 @@ const Details = () => {
           </div>
 
           {/* Buy Now Button */}
-          {product.links && (
            <a
                     href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
                       product.title
@@ -83,7 +82,6 @@ const Details = () => {
                   >
                     Buy Now
                   </a>
-          )}
         </div>
       </div>
     </div>
