@@ -7,7 +7,8 @@ import {
   Container,
   Button,
 } from '@mui/material';
-import { Facebook, WhatsApp , TikTok} from '@mui/icons-material';
+import { Facebook, WhatsApp } from '@mui/icons-material';
+import { FaTiktok } from 'react-icons/fa'; // TikTok icon from react-icons
 import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
@@ -60,13 +61,25 @@ const Footer = () => {
               Connect With Us
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <IconButton href="https://www.facebook.com/profile.php?id=61577188271987&sk=about" target="_blank" sx={{ color: '#fff' }}>
+              <IconButton
+                href="https://www.facebook.com/profile.php?id=61577188271987&sk=about"
+                target="_blank"
+                sx={{ color: '#fff' }}
+              >
                 <Facebook />
               </IconButton>
-              <IconButton href="https://www.tiktok.com/@watch.gi" target="_blank" sx={{ color: '#fff' }}>
-                <TikTok />
+              <IconButton
+                href="https://www.tiktok.com/@watch.gi"
+                target="_blank"
+                sx={{ color: '#fff' }}
+              >
+                <FaTiktok size={24} />
               </IconButton>
-              <IconButton href="https://wa.me/923172358782" target="_blank" sx={{ color: '#fff' }}>
+              <IconButton
+                href="https://wa.me/923172358782"
+                target="_blank"
+                sx={{ color: '#fff' }}
+              >
                 <WhatsApp />
               </IconButton>
             </Box>
