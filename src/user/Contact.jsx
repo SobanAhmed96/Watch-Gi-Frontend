@@ -15,10 +15,10 @@ const Contact = () => {
 
    
     emailjs.sendForm(
-      'service_rkjkxkq',     // 🔁 Replace with your service ID
-      'template_kwwyw1r',    // 🔁 Replace with your template ID
+      'service_51z5q87',     // 🔁 Replace with your service ID
+      'template_b8f0k43',    // 🔁 Replace with your template ID
       formRef.current,
-      'Af4bBjml7BCNxrsLT'         // 🔁 Replace with your user ID (or public key)
+      'AsuXblqGM58ndrrU-'         // 🔁 Replace with your user ID (or public key)
     )
     .then(() => {
       setOpen(true);

@@ -7,7 +7,7 @@ import {
   Container,
   Button,
 } from '@mui/material';
-import { Facebook, Instagram, Twitter, WhatsApp } from '@mui/icons-material';
+import { Facebook, WhatsApp , TikTok} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
@@ -64,10 +64,7 @@ const Footer = () => {
                 <Facebook />
               </IconButton>
               <IconButton href="https://instagram.com" target="_blank" sx={{ color: '#fff' }}>
-                <Instagram />
-              </IconButton>
-              <IconButton href="https://twitter.com" target="_blank" sx={{ color: '#fff' }}>
-                <Twitter />
+                <TikTok />
               </IconButton>
               <IconButton href="https://wa.me/923172358782" target="_blank" sx={{ color: '#fff' }}>
                 <WhatsApp />
