@@ -56,7 +56,7 @@ const Women = () => {
               />
               <div className="p-4 text-center">
                 <h2 className="text-lg font-semibold mb-1">{product.title}</h2>
-                <p className="text-gray-600 mb-2">₹{product.price}</p>
+                <p className="text-gray-600 mb-2">Rs:{product.price}</p>
                 <div className="flex justify-center gap-2">
                   <a
                     href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
