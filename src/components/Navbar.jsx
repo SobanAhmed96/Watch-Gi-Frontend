@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -47,12 +47,13 @@ function Navbar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Desktop logo */}
-          <Box
+         <Link to="/"> <Box
             component="img"
             src="/logo-watchg.svg"
             alt="Watch G Logo"
             sx={{ display: { xs: 'none', md: 'flex' }, height: 40, mr: 2 }}
           />
+          </Link>
 
           {/* Mobile menu icon */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -117,13 +118,13 @@ function Navbar() {
           </Box>
 
           {/* Mobile logo */}
-          <Box
+         <Link to="/"> <Box
             component="img"
             src="/logo-watchg.svg"
             alt="Watch G Logo"
             sx={{ display: { xs: 'flex', md: 'none' }, height: 40, mr: 1 }}
           />
-
+</Link>
           {/* Desktop nav links */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 , marginLeft: "40px" }}>
             <NavLink to="/" style={linkStyle}>
