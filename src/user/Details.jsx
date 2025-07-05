@@ -46,7 +46,7 @@ const Details = () => {
           <div className="flex flex-col justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-3">{product.title}</h1>
-              <p className="text-xl text-gray-700 mb-1">₹{product.price}</p>
+              <p className="text-xl text-gray-700 mb-1">Rs:{product.price}</p>
               {product.category && (
                 <p className="text-sm text-gray-500 mb-3">
                   Category: {product.category}
