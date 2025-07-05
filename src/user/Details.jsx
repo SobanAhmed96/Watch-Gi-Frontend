@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
+import Whatsapp from "../components/Whatsapp";
 
 const Details = () => {
   const { id } = useParams();
@@ -88,6 +89,7 @@ const Details = () => {
           </div>
         </div>
       </div>
+      <Whatsapp />
       <Footer />
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import Whatsapp from "../components/Whatsapp";
 
 const Men = () => {
   const [products, setProducts] = useState([]);
@@ -85,6 +86,7 @@ const Men = () => {
         )}
       </div>
     </div>
+    <Whatsapp />
     <Footer />
     </div>
   );

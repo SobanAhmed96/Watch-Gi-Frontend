@@ -5,6 +5,7 @@ import {
   Button, Paper, Snackbar, Alert
 } from '@mui/material';
 import Footer from '../components/Footer';
+import Whatsapp from '../components/Whatsapp';
 
 const Contact = () => {
   const formRef = useRef();
@@ -79,7 +80,7 @@ const Contact = () => {
           Message sent successfully!
         </Alert>
       </Snackbar>
-
+<Whatsapp />
       <Footer />
     </div>
   );
