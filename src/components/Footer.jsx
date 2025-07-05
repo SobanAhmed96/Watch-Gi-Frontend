@@ -62,14 +62,14 @@ const Footer = () => {
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <IconButton
-                href="https://www.facebook.com/profile.php?id=61577188271987&sk=about"
+                href="https://www.facebook.com/profile.php?id=100039909202221"
                 target="_blank"
                 sx={{ color: '#fff' }}
               >
                 <Facebook />
               </IconButton>
               <IconButton
-                href="https://www.tiktok.com/@watch.gi"
+                href="https://www.tiktok.com/@watchgi123?_t=ZS-8xljoAqVKyo&_r=1"
                 target="_blank"
                 sx={{ color: '#fff' }}
               >
