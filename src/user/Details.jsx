@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
 import Whatsapp from "../components/Whatsapp";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Details = () => {
   const { id } = useParams();
@@ -16,7 +16,12 @@ const Details = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
-        setProduct(res.data.productData);
+        // Check if data exists
+        if (res.data?.productData) {
+          setProduct(res.data.productData);
+        } else {
+          setError("Product not found.");
+        }
       } catch (err) {
         setError("Failed to load product.");
       } finally {
@@ -31,7 +36,7 @@ const Details = () => {
   if (error) return <div className="text-center text-red-500">{error}</div>;
   if (!product) return null;
 
-  // Collect product images into an array
+  // Collect all images (if available)
   const images = [
     product.productImage,
     product.productImage2,
@@ -43,26 +48,31 @@ const Details = () => {
     <div>
       <div className="max-w-4xl mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-6 rounded-2xl shadow-lg">
-          {/* Carousel for Images */}
+          {/* Product Image Carousel */}
           <div>
-            <Carousel
-              showThumbs={false}
-              showStatus={false}
-              infiniteLoop
-              autoPlay
-              interval={3000}
-              className="rounded-xl shadow-md"
-            >
-              {images.map((imgUrl, idx) => (
-                <div key={idx}>
-                  <img
-                    src={imgUrl}
-                    alt={`${product.title} ${idx + 1}`}
-                    className="h-96 object-cover rounded-xl"
-                  />
-                </div>
-              ))}
-            </Carousel>
+            {images.length > 0 ? (
+              <Carousel
+                showArrows
+                showThumbs
+                infiniteLoop
+                autoPlay
+                className="rounded-xl shadow-md"
+              >
+                {images.map((img, idx) => (
+                  <div key={idx}>
+                    <img
+                      src={img}
+                      alt={`${product.title} ${idx + 1}`}
+                      className="h-96 object-cover rounded-xl"
+                    />
+                  </div>
+                ))}
+              </Carousel>
+            ) : (
+              <div className="h-96 bg-gray-100 flex items-center justify-center rounded-xl">
+                <p className="text-gray-400">No image available</p>
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -91,7 +101,7 @@ const Details = () => {
                     {product.links}
                   </a>
                 ) : (
-                  <span className="text-gray-500">No Links</span>
+                  <span className="text-gray-500">No link available</span>
                 )}
               </div>
             </div>
@@ -112,6 +122,7 @@ const Details = () => {
           </div>
         </div>
       </div>
+
       <Whatsapp />
       <Footer />
     </div>
