@@ -16,6 +16,8 @@ const Details = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
+        console.log(res.data);
+        
         // Check if data exists
         if (res.data?.productData) {
           setProduct(res.data.productData);
