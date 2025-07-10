@@ -8,13 +8,10 @@ const AddProduct = () => {
     price: "",
     description: "",
     links: "",
-    category: "", // Added category
+    category: "",
   });
 
-  const [image, setImage] = useState(null);
-  const [image2, setImage2] = useState(null);
-  const [image3, setImage3] = useState(null);
-  const [image4, setImage4] = useState(null);
+  const [images, setImages] = useState([null, null, null, null, null]);
   const [snack, setSnack] = useState({
     open: false,
     message: "",
@@ -25,11 +22,13 @@ const AddProduct = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-    setImage2(e.target.files[1]);
-    setImage3(e.target.files[2]);
-    setImage4(e.target.files[3]);
+  const handleImageChange = (e, index) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const newImages = [...images];
+    newImages[index] = files[0];
+    setImages(newImages);
   };
 
   const handleCloseSnack = () => {
@@ -44,14 +43,14 @@ const AddProduct = () => {
     formData.append("price", form.price);
     formData.append("description", form.description);
     formData.append("links", form.links);
-    formData.append("category", form.category); // Append category
-    if (image) formData.append("productImage", image);
-    if (image2) formData.append("productImage2", image2);
-    if (image3) formData.append("productImage3", image3);
-    if (image4) formData.append("productImage4", image4);
+    formData.append("category", form.category);
+
+    images.forEach((img, idx) => {
+      if (img) formData.append(`productImage${idx + 1}`, img);
+    });
 
     try {
-      const res = await axios.post("/api/v1/addProduct", formData, {
+      await axios.post("/api/v1/addProduct", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -63,7 +62,7 @@ const AddProduct = () => {
         links: "",
         category: "",
       });
-      setImage(null);
+      setImages([null, null, null, null, null]);
       setSnack({
         open: true,
         message: "Product added successfully",
@@ -72,8 +71,7 @@ const AddProduct = () => {
     } catch (error) {
       setSnack({
         open: true,
-        message:
-          error.response?.data?.message || "Something went wrong. Try again.",
+        message: error.response?.data?.message || "Something went wrong. Try again.",
         severity: "error",
       });
     }
@@ -121,7 +119,6 @@ const AddProduct = () => {
           className="w-full border p-2 mb-3 rounded"
         />
 
-        {/* Category Dropdown */}
         <select
           name="category"
           value={form.category}
@@ -135,34 +132,16 @@ const AddProduct = () => {
           <option value="Children">Children</option>
         </select>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-          className="w-full border p-2 mb-4 rounded"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-          className="w-full border p-2 mb-4 rounded"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-          className="w-full border p-2 mb-4 rounded"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-          className="w-full border p-2 mb-4 rounded"
-        />
+        {images.map((_, idx) => (
+          <input
+            key={idx}
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, idx)}
+            required
+            className="w-full border p-2 mb-3 rounded"
+          />
+        ))}
 
         <button
           type="submit"
