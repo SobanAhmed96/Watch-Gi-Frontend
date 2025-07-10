@@ -17,10 +17,10 @@ const Details = () => {
       try {
         const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
         console.log(res.data);
-        
-        // Check if data exists
+
+        // Use correct key: res.data.product
         if (res.data?.product) {
-          setProduct(res.data.productData);
+          setProduct(res.data.product);
         } else {
           setError("Product not found.");
         }
@@ -38,13 +38,13 @@ const Details = () => {
   if (error) return <div className="text-center text-red-500">{error}</div>;
   if (!product) return null;
 
-  // Collect all images (if available)
+  // Collect all available images
   const images = [
     product.productImage,
-    product.productImage2 || "not image",
-    product.productImage3 || "not image",
-    product.productImage4 || "not image",
-  ].filter(Boolean);
+    product.productImage2,
+    product.productImage3,
+    product.productImage4,
+  ].filter((img) => img);
 
   return (
     <div>
@@ -91,7 +91,7 @@ const Details = () => {
                 {product.description}
               </p>
 
-              {/* Product Link Display */}
+              {/* Product Link */}
               <div className="mb-4">
                 {product.links ? (
                   <a
@@ -110,10 +110,8 @@ const Details = () => {
 
             {/* Buy Now Button */}
             <a
-              href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
-                product.title || "watch"
-              )} watch.%0AHere is the image: ${encodeURIComponent(
-                product.productImage || "Image not available"
+              href={`https://wa.me/923172358782?text=${encodeURIComponent(
+                `Hi, I'm interested in the ${product.title || "watch"} watch.\nPrice: Rs ${product.price}.\nHere is the image: ${product.productImage || "Image not available"}.\nLink: ${product.links || "No link provided"}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
