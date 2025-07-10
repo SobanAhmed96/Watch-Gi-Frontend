@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     title: "",
     price: "",
     description: "",
@@ -14,146 +14,154 @@ const EditProduct = () => {
     category: "",
   });
 
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [currentImages, setCurrentImages] = useState({
+    productImage: "",
+    productImage2: "",
+    productImage3: "",
+    productImage4: "",
+  });
+
+  const [imageFiles, setImageFiles] = useState({});
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
-        const { title, price, description, links, category, productImage } = res.data.productData;
-        setForm({ title, price, description, links: links || "", category: category || "" });
-        setPreview(productImage);
+        const data = res.data.product;
+
+        setFormData({
+          title: data.title,
+          price: data.price,
+          description: data.description,
+          links: data.links,
+          category: data.category,
+        });
+
+        setCurrentImages({
+          productImage: data.productImage || "",
+          productImage2: data.productImage2 || "",
+          productImage3: data.productImage3 || "",
+          productImage4: data.productImage4 || "",
+        });
       } catch (error) {
-        setMessage("Failed to load product.");
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch product", error);
       }
     };
     fetchProduct();
   }, [id]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
+  const handleImageChange = (e, key) => {
+    setImageFiles((prev) => ({
+      ...prev,
+      [key]: e.target.files[0],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-
-    const formData = new FormData();
-    formData.append("title", form.title);
-    formData.append("price", form.price);
-    formData.append("description", form.description);
-    formData.append("links", form.links);
-    formData.append("category", form.category);
-    if (image) formData.append("productImage", image);
-
     try {
-      await axios.put(`/api/v1/updateProduct/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
+      const updateData = new FormData();
+      updateData.append("title", formData.title);
+      updateData.append("price", formData.price);
+      updateData.append("description", formData.description);
+      updateData.append("links", formData.links);
+      updateData.append("category", formData.category);
+
+      // Append new image files if selected
+      Object.values(imageFiles).forEach((file) => {
+        updateData.append("productImages", file);
       });
-      setMessage("Product updated successfully.");
+
+      await axios.put(`/api/v1/updateProduct/${id}`, updateData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      alert("Product updated successfully");
       navigate("/adminDashboard/getProduct");
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Something went wrong. Try again.");
+    } catch (error) {
+      console.error("Failed to update product", error);
+      alert("Failed to update product");
     }
   };
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
-
   return (
-    <div className="max-w-xl mx-auto p-6 mt-10 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Edit Product</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="max-w-2xl mx-auto p-4">
+      <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           name="title"
-          placeholder="Product Title"
-          value={form.title}
+          value={formData.title}
           onChange={handleChange}
-          required
-          className="w-full border p-2 mb-3 rounded"
+          placeholder="Title"
+          className="border p-2 rounded"
         />
-
         <input
           type="number"
           name="price"
-          placeholder="Price"
-          value={form.price}
+          value={formData.price}
           onChange={handleChange}
-          required
-          className="w-full border p-2 mb-3 rounded"
+          placeholder="Price"
+          className="border p-2 rounded"
         />
-
         <textarea
           name="description"
-          placeholder="Description"
-          value={form.description}
+          value={formData.description}
           onChange={handleChange}
-          required
-          className="w-full border p-2 mb-3 rounded"
+          placeholder="Description"
+          className="border p-2 rounded"
         />
-
         <input
           type="text"
           name="links"
-          placeholder='External links (e.g. "https://...")'
-          value={form.links}
+          value={formData.links}
           onChange={handleChange}
-          className="w-full border p-2 mb-3 rounded"
+          placeholder="Links"
+          className="border p-2 rounded"
         />
-
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          required
-          className="w-full border p-2 mb-3 rounded"
-        >
-          <option value="">Select Category</option>
-          <option value="Men">Men</option>
-          <option value="Women">Women</option>
-          <option value="Children">Children</option>
-        </select>
-
-        {preview && (
-          <img
-            src={preview}
-            alt="Preview"
-            className="w-full h-48 object-contain mb-3 border rounded"
-          />
-        )}
-
         <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full border p-2 mb-4 rounded"
+          type="text"
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          placeholder="Category"
+          className="border p-2 rounded"
         />
+
+        {["productImage", "productImage2", "productImage3", "productImage4"].map((key, index) => (
+          <div key={key}>
+            <p className="mb-2">Current Image {index + 1}:</p>
+            {currentImages[key] ? (
+              <img
+                src={currentImages[key]}
+                alt={`Current ${key}`}
+                className="w-40 mb-2 rounded"
+              />
+            ) : (
+              <p className="mb-2 text-gray-500">No image uploaded</p>
+            )}
+            <input
+              type="file"
+              onChange={(e) => handleImageChange(e, key)}
+              className="border p-2"
+            />
+          </div>
+        ))}
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Update Product
         </button>
       </form>
-
-      {message && (
-        <p className="mt-4 text-center text-sm text-red-500">{message}</p>
-      )}
     </div>
   );
 };

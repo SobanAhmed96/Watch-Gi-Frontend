@@ -7,11 +7,12 @@ export default defineConfig({
 
   server: {
     proxy: {
-      "/api": {
-        target: "https://watch-gi-website-backend.vercel.app",
-        changeOrigin: true,
-        secure: true,
-      },
+      "/api": "http://localhost:4000"
+      // "/api": {
+      //   target: "https://watch-gi-website-backend.vercel.app",
+      //   changeOrigin: true,
+      //   secure: true,
+      // },
     },
   },
 

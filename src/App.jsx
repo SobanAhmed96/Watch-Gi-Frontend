@@ -5,7 +5,7 @@ import router from './router/router';
 import axios from 'axios';
 import Whatsapp from './components/Whatsapp';
 const App = () => {
-  axios.defaults.baseURL = "https://watch-gi-website-backend.vercel.app"
+  // axios.defaults.baseURL = "https://watch-gi-website-backend.vercel.app"
   return (
     <RouterProvider router={router}>
     <Whatsapp />

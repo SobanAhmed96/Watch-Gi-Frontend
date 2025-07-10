@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const GetByIdProduct = () => {
   const { id } = useParams();
@@ -14,7 +17,7 @@ const GetByIdProduct = () => {
       try {
         const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
         if (res.data?.success) {
-          setProduct(res.data.productData);
+          setProduct(res.data.product); // ✅ use 'product' as returned by backend
         } else {
           setError("Product not found.");
         }
@@ -33,8 +36,8 @@ const GetByIdProduct = () => {
   };
 
   const handleDelete = async () => {
-    const confirm = window.confirm("Are you sure you want to delete this product?");
-    if (!confirm) return;
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
 
     try {
       await axios.delete(`/api/v1/deleteProduct/${id}`);
@@ -45,25 +48,56 @@ const GetByIdProduct = () => {
     }
   };
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
-  if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center mt-10 text-red-500">{error}</div>
+    );
+  }
+
+  // Collect all product images into an array for the carousel
+  const images = [
+    product?.productImage,
+    product?.productImage2,
+    product?.productImage3,
+    product?.productImage4,
+  ].filter(Boolean); // Remove undefined or empty images
 
   return (
     <div className="max-w-2xl mx-auto p-6 mt-10 bg-white rounded shadow">
-      {product.productImage && (
-        <img
-          src={product.productImage}
-          alt={product.title}
-          className="w-full h-64 object-cover rounded mb-4"
-        />
+      {images.length > 0 && (
+        <Carousel
+          showArrows
+          showThumbs
+          infiniteLoop
+          dynamicHeight
+          autoPlay
+        >
+          {images.map((img, index) => (
+            <div key={index}>
+              <img
+                src={img}
+                alt={`Product ${index + 1}`}
+                className="object-cover h-64 w-full rounded"
+              />
+            </div>
+          ))}
+        </Carousel>
       )}
 
-      <h2 className="text-2xl font-bold mb-2">{product.title}</h2>
-      <p className="text-lg text-gray-700 mb-1">Price: ₹{product.price}</p>
-      <p className="text-gray-600 mb-1">Category: <span className="font-medium">{product.category}</span></p>
-      <p className="text-gray-600 mb-4">{product.description}</p>
+      <h2 className="text-2xl font-bold mt-4 mb-2">{product?.title}</h2>
+      <p className="text-lg text-gray-700 mb-1">Price: ₹{product?.price}</p>
+      <p className="text-gray-600 mb-1">Category: <span className="font-medium">{product?.category}</span></p>
+      <p className="text-gray-600 mb-4">{product?.description}</p>
 
-      {product.links && (
+      {product?.links && (
         <div className="mb-4">
           <a
             href={product.links}

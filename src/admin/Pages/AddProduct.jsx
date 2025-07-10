@@ -11,7 +11,7 @@ const AddProduct = () => {
     category: "",
   });
 
-  const [images, setImages] = useState([null, null, null, null, null]);
+  const [images, setImages] = useState([null, null, null, null]);
   const [snack, setSnack] = useState({
     open: false,
     message: "",
@@ -45,8 +45,8 @@ const AddProduct = () => {
     formData.append("links", form.links);
     formData.append("category", form.category);
 
-    images.forEach((img, idx) => {
-      if (img) formData.append(`productImage${idx + 1}`, img);
+    images.forEach((img) => {
+      if (img) formData.append("productImages", img);
     });
 
     try {
@@ -62,7 +62,7 @@ const AddProduct = () => {
         links: "",
         category: "",
       });
-      setImages([null, null, null, null, null]);
+      setImages([null, null, null, null]);
       setSnack({
         open: true,
         message: "Product added successfully",
@@ -138,7 +138,6 @@ const AddProduct = () => {
             type="file"
             accept="image/*"
             onChange={(e) => handleImageChange(e, idx)}
-            required
             className="w-full border p-2 mb-3 rounded"
           />
         ))}
