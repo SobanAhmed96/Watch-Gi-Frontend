@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import {
   Button,
@@ -14,22 +14,25 @@ const GetProduct = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [snack, setSnack] = useState({ open: false, message: "", severity: "info" });
+  const [deletingId, setDeletingId] = useState("");
+
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const res = await axios.get("/api/v1/getProduct");
       setProducts(res.data.products);
+      setError("");
     } catch (err) {
       setError("Failed to fetch products.");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const handleView = (id) => {
     navigate(`/adminDashboard/getProductById/${id}`);
@@ -43,16 +46,15 @@ const GetProduct = () => {
     const confirm = window.confirm("Are you sure you want to delete this product?");
     if (!confirm) return;
 
+    setDeletingId(id);
     try {
       await axios.delete(`/api/v1/deleteProduct/${id}`, { withCredentials: true });
       setProducts(products.filter((product) => product._id !== id));
       setSnack({ open: true, message: "Product deleted successfully", severity: "success" });
     } catch (err) {
-      setSnack({
-        open: true,
-        message: "Failed to delete product",
-        severity: "error",
-      });
+      setSnack({ open: true, message: "Failed to delete product", severity: "error" });
+    } finally {
+      setDeletingId("");
     }
   };
 
@@ -85,7 +87,11 @@ const GetProduct = () => {
             className="bg-white shadow-md rounded-lg overflow-hidden"
           >
             <img
-              src={product.productImage}
+              src={
+                product.productImage?.startsWith("http")
+                  ? product.productImage
+                  : `https://your-domain.com${product.productImage}`
+              }
               alt={product.title}
               className="w-full h-48 object-cover"
             />
@@ -114,20 +120,20 @@ const GetProduct = () => {
                   color="error"
                   fullWidth
                   onClick={() => handleDelete(product._id)}
+                  disabled={deletingId === product._id}
                 >
-                  Delete
+                  {deletingId === product._id ? "Deleting..." : "Delete"}
                 </Button>
               </div>
             </div>
           </div>
         ))
       ) : (
-        <Typography
-          variant="h6"
-          className="text-center col-span-full text-gray-500"
-        >
-          No products found.
-        </Typography>
+        <div className="col-span-full text-center">
+          <Typography variant="h6" className="text-gray-500">
+            No products found.
+          </Typography>
+        </div>
       )}
 
       <Snackbar

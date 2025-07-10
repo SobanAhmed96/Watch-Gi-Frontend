@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Snackbar, Alert } from "@mui/material";
 
@@ -8,7 +8,7 @@ const AddProduct = () => {
     price: "",
     description: "",
     links: "",
-    category: "", // Added category
+    category: "",
   });
 
   const [image, setImage] = useState(null);
@@ -17,6 +17,9 @@ const AddProduct = () => {
     message: "",
     severity: "info",
   });
+  const [loading, setLoading] = useState(false);
+
+  const fileInputRef = useRef();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,11 +41,12 @@ const AddProduct = () => {
     formData.append("price", form.price);
     formData.append("description", form.description);
     formData.append("links", form.links);
-    formData.append("category", form.category); // Append category
+    formData.append("category", form.category);
     if (image) formData.append("productImage", image);
 
+    setLoading(true);
     try {
-      const res = await axios.post("/api/v1/addProduct", formData, {
+      await axios.post("/api/v1/addProduct", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -55,6 +59,9 @@ const AddProduct = () => {
         category: "",
       });
       setImage(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       setSnack({
         open: true,
         message: "Product added successfully",
@@ -67,6 +74,8 @@ const AddProduct = () => {
           error.response?.data?.message || "Something went wrong. Try again.",
         severity: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,6 +100,8 @@ const AddProduct = () => {
           value={form.price}
           onChange={handleChange}
           required
+          step="0.01"
+          min="0"
           className="w-full border p-2 mb-3 rounded"
         />
 
@@ -112,7 +123,6 @@ const AddProduct = () => {
           className="w-full border p-2 mb-3 rounded"
         />
 
-        {/* Category Dropdown */}
         <select
           name="category"
           value={form.category}
@@ -130,15 +140,19 @@ const AddProduct = () => {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
+          ref={fileInputRef}
           required
           className="w-full border p-2 mb-4 rounded"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          disabled={loading}
+          className={`w-full bg-blue-600 text-white py-2 rounded ${
+            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+          }`}
         >
-          Add Product
+          {loading ? "Adding..." : "Add Product"}
         </button>
       </form>
 
