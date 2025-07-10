@@ -15,7 +15,7 @@ const Details = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`/api/v1/getBIdProduct/${id}`);
+        const res = await axios.get(`/api/v1/getByIdProduct/${id}`);
         // Check if data exists
         if (res.data?.productData) {
           setProduct(res.data.productData);
