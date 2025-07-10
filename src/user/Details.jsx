@@ -19,7 +19,7 @@ const Details = () => {
         console.log(res.data);
         
         // Check if data exists
-        if (res.data?.productData) {
+        if (res.data?.product) {
           setProduct(res.data.productData);
         } else {
           setError("Product not found.");
