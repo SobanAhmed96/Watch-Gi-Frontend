@@ -41,9 +41,9 @@ const Details = () => {
   // Collect all images (if available)
   const images = [
     product.productImage,
-    product.productImage2,
-    product.productImage3,
-    product.productImage4,
+    product.productImage2 || "not image",
+    product.productImage3 || "not image",
+    product.productImage4 || "not image",
   ].filter(Boolean);
 
   return (
