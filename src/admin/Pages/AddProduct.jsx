@@ -12,6 +12,9 @@ const AddProduct = () => {
   });
 
   const [image, setImage] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
+  const [image4, setImage4] = useState(null);
   const [snack, setSnack] = useState({
     open: false,
     message: "",
@@ -24,6 +27,9 @@ const AddProduct = () => {
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+    setImage2(e.target.files[1]);
+    setImage3(e.target.files[2]);
+    setImage4(e.target.files[3]);
   };
 
   const handleCloseSnack = () => {
@@ -40,6 +46,9 @@ const AddProduct = () => {
     formData.append("links", form.links);
     formData.append("category", form.category); // Append category
     if (image) formData.append("productImage", image);
+    if (image2) formData.append("productImage2", image2);
+    if (image3) formData.append("productImage3", image3);
+    if (image4) formData.append("productImage4", image4);
 
     try {
       const res = await axios.post("/api/v1/addProduct", formData, {
@@ -126,6 +135,27 @@ const AddProduct = () => {
           <option value="Children">Children</option>
         </select>
 
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          required
+          className="w-full border p-2 mb-4 rounded"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          required
+          className="w-full border p-2 mb-4 rounded"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          required
+          className="w-full border p-2 mb-4 rounded"
+        />
         <input
           type="file"
           accept="image/*"
