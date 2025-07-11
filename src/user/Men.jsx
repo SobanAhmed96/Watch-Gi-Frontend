@@ -43,7 +43,7 @@ const Men = () => {
       <div className="px-4 py-8 max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">Men's Watches</h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.length > 0 ? (
             products.map((product) => {
               const images = [
@@ -66,14 +66,14 @@ const Men = () => {
                     infiniteLoop
                     autoPlay
                     interval={3000}
-                    className="h-64"
+                    className="h-48"
                   >
                     {images.map((imgUrl, idx) => (
                       <div key={idx}>
                         <img
                           src={imgUrl}
                           alt={`${product.title} ${idx + 1}`}
-                          className="h-64 object-cover w-full"
+                          className="h-48 object-cover w-full"
                         />
                       </div>
                     ))}
