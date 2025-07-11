@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { motion } from "framer-motion";
 
 const ProductList = ({ category }) => {
   const [products, setProducts] = useState([]);
@@ -48,7 +47,7 @@ const ProductList = ({ category }) => {
       <h2 className="text-3xl font-bold text-center mb-10">
         {category && category !== "All" ? `${category} Watches` : "All Watches"}
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.length > 0 ? (
           products.map((product) => {
             const images = [
@@ -59,15 +58,14 @@ const ProductList = ({ category }) => {
             ].filter(Boolean);
 
             return (
-              <motion.div
+              <div
                 key={product._id}
-                whileHover={{ scale: 1.05, boxShadow: "0px 10px 30px rgba(0,0,0,0.2)" }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="bg-white shadow-md rounded-2xl overflow-hidden"
+                className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl"
               >
                 <Carousel
                   showThumbs={false}
                   showStatus={false}
+                  showIndicators={false}
                   infiniteLoop
                   autoPlay
                   interval={3000}
@@ -78,7 +76,7 @@ const ProductList = ({ category }) => {
                       <img
                         src={imgUrl}
                         alt={`${product.title} ${idx + 1}`}
-                        className="h-48 object-cover w-full rounded-t-2xl"
+                        className="h-48 object-cover w-full"
                       />
                     </div>
                   ))}
@@ -94,19 +92,19 @@ const ProductList = ({ category }) => {
                       )} watch. ${product.productImage}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-black text-white px-3 py-1 rounded-full text-sm hover:bg-gray-800 transition"
+                      className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
                     >
                       Buy Now
                     </a>
                     <button
                       onClick={() => handleDetails(product._id)}
-                      className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700 transition"
+                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
                     >
                       Details
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })
         ) : (
