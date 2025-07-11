@@ -70,7 +70,7 @@ const ProductList = ({ category }) => {
                   interval={3000}
                   className="h-64"
                 >
-                  <div className="p-1 m-3 bg-amber-100">{images.map((imgUrl, idx) => (
+                  <div className="m-10 bg-amber-100">{images.map((imgUrl, idx) => (
                     <div key={idx} className="rounded-2xl">
                       <img
                         src={imgUrl}
