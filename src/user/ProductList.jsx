@@ -74,7 +74,7 @@ const ProductList = ({ category }) => {
                   infiniteLoop
                   autoPlay
                   interval={3000}
-                  className="rounded-t-2xl pointer-events-none" // Disable interaction on carousel to make whole card clickable
+                  className="rounded-t-2xl pointer-events-none"
                 >
                   {images.map((imgUrl, imgIdx) => (
                     <motion.div
@@ -102,8 +102,8 @@ const ProductList = ({ category }) => {
                       )} watch. ${product.productImage}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()} // Prevent card click
-                      className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-center"
+                      onClick={(e) => e.stopPropagation()}
+                      className="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-center text-sm sm:text-base"
                     >
                       Buy Now
                     </a>
@@ -112,7 +112,7 @@ const ProductList = ({ category }) => {
                         e.stopPropagation();
                         handleDetails(product._id);
                       }}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto"
+                      className="bg-blue-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto text-sm sm:text-base"
                     >
                       Details
                     </button>
