@@ -121,6 +121,7 @@ const Product = () => {
                   <Carousel
                     showThumbs={false}
                     showStatus={false}
+                    showIndicators={false} // ✅ Remove dots
                     infiniteLoop
                     autoPlay
                     interval={3000}
@@ -143,7 +144,7 @@ const Product = () => {
                     {product.category && (
                       <p className="text-sm text-gray-500 mb-2">{product.category}</p>
                     )}
-                    <div className="flex justify-center gap-2 mt-auto">
+                    <div className="flex flex-col sm:flex-row justify-center gap-2 mt-auto">
                       <a
                         onClick={(e) => e.stopPropagation()}
                         href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
