@@ -121,7 +121,7 @@ const Product = () => {
                   <Carousel
                     showThumbs={false}
                     showStatus={false}
-                    showIndicators={false} // ✅ Remove dots
+                    showIndicators={false}
                     infiniteLoop
                     autoPlay
                     interval={3000}
@@ -152,7 +152,7 @@ const Product = () => {
                         )} watch.%0AHere is the image: ${encodeURIComponent(product.productImage)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
+                        className="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full hover:bg-gray-800 transition"
                       >
                         Buy Now
                       </a>
@@ -161,7 +161,7 @@ const Product = () => {
                           e.stopPropagation();
                           handleDetails(product._id);
                         }}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                        className="bg-blue-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-full hover:bg-blue-700 transition"
                       >
                         Details
                       </button>
