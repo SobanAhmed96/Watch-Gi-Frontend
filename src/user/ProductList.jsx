@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
+import { motion } from "framer-motion";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ProductList = ({ category }) => {
@@ -49,7 +50,7 @@ const ProductList = ({ category }) => {
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.length > 0 ? (
-          products.map((product) => {
+          products.map((product, idx) => {
             const images = [
               product.productImage,
               product.productImage2,
@@ -58,9 +59,12 @@ const ProductList = ({ category }) => {
             ].filter(Boolean);
 
             return (
-              <div
+              <motion.div
                 key={product._id}
                 className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
               >
                 <Carousel
                   showThumbs={false}
@@ -71,14 +75,19 @@ const ProductList = ({ category }) => {
                   interval={3000}
                   className="rounded-t-2xl"
                 >
-                  {images.map((imgUrl, idx) => (
-                    <div key={idx}>
+                  {images.map((imgUrl, imgIdx) => (
+                    <motion.div
+                      key={imgIdx}
+                      initial={{ x: 100, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 0.8 }}
+                    >
                       <img
                         src={imgUrl}
-                        alt={`${product.title} ${idx + 1}`}
+                        alt={`${product.title} ${imgIdx + 1}`}
                         className="h-48 object-cover w-full"
                       />
-                    </div>
+                    </motion.div>
                   ))}
                 </Carousel>
 
@@ -104,7 +113,7 @@ const ProductList = ({ category }) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })
         ) : (
