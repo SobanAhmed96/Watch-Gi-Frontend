@@ -142,20 +142,20 @@ const Product = () => {
                     {product.category && (
                       <p className="text-sm text-gray-500 mb-2">{product.category}</p>
                     )}
-                    <div className="flex justify-center gap-2">
+                    <div className="flex flex-col sm:flex-row justify-center gap-2">
                       <a
                         href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
                           product.title
                         )} watch.%0AHere is the image: ${encodeURIComponent(product.productImage)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
+                        className="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-sm sm:text-base text-center"
                       >
                         Buy Now
                       </a>
                       <button
                         onClick={() => handleDetails(product._id)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                        className="bg-blue-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto text-sm sm:text-base"
                       >
                         Details
                       </button>
