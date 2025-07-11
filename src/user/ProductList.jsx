@@ -70,7 +70,7 @@ const ProductList = ({ category }) => {
                   interval={3000}
                   className="h-64"
                 >
-                  <div className="m-10 bg-amber-100">{images.map((imgUrl, idx) => (
+                  <div className="m-4 p-2 bg-amber-100">{images.map((imgUrl, idx) => (
                     <div key={idx} className="rounded-2xl">
                       <img
                         src={imgUrl}
@@ -82,7 +82,7 @@ const ProductList = ({ category }) => {
                   </div>
                 </Carousel>
 
-                <div className="p-4 text-center">
+                <div className="p-4 text-center mt-4">
                   <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
                   <p className="text-gray-600 mb-2">Rs: {product.price}</p>
                   <div className="flex justify-center gap-2">
