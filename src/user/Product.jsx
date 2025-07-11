@@ -3,8 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Whatsapp from "../components/Whatsapp";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -101,69 +99,47 @@ const Product = () => {
           </select>
         </div>
 
-        {/* Product Cards */}
+        {/* Product List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.length > 0 ? (
-            products.map((product) => {
-              const images = [
-                product.productImage,
-                product.productImage2,
-                product.productImage3,
-                product.productImage4,
-              ].filter(Boolean);
+            products.map((product) => (
+              <div
+                key={product._id}
+                className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl flex flex-col"
+              >
+                <img
+                  src={product.productImage}
+                  alt={product.title}
+                  className="h-64 object-cover w-full"
+                />
 
-              return (
-                <div
-                  key={product._id}
-                  className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <Carousel
-                    showThumbs={false}
-                    showStatus={false}
-                    infiniteLoop
-                    autoPlay
-                    interval={3000}
-                    className="h-64"
-                  >
-                    {images.map((imgUrl, idx) => (
-                      <div key={idx}>
-                        <img
-                          src={imgUrl}
-                          alt={`${product.title} ${idx + 1}`}
-                          className="h-64 object-cover w-full"
-                        />
-                      </div>
-                    ))}
-                  </Carousel>
-
-                  <div className="p-4 text-center">
-                    <h2 className="text-lg font-semibold mb-1">{product.title}</h2>
-                    <p className="text-gray-600 mb-1">Rs: {product.price}</p>
-                    {product.category && (
-                      <p className="text-sm text-gray-500 mb-2">{product.category}</p>
-                    )}
-                    <div className="flex flex-col sm:flex-row justify-center gap-2">
-                      <a
-                        href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
-                          product.title
-                        )} watch.%0AHere is the image: ${encodeURIComponent(product.productImage)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-sm sm:text-base text-center"
-                      >
-                        Buy Now
-                      </a>
-                      <button
-                        onClick={() => handleDetails(product._id)}
-                        className="bg-blue-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto text-sm sm:text-base"
-                      >
-                        Details
-                      </button>
-                    </div>
+                <div className="p-4 flex flex-col flex-grow text-center">
+                  <h2 className="text-lg font-semibold mb-1">{product.title}</h2>
+                  <p className="text-gray-600 mb-1">Rs: {product.price}</p>
+                  {product.category && (
+                    <p className="text-sm text-gray-500 mb-2">{product.category}</p>
+                  )}
+                  <div className="flex flex-col sm:flex-row justify-center gap-2 mt-auto">
+                    <a
+                      href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
+                        product.title
+                      )} watch.%0AHere is the image: ${encodeURIComponent(product.productImage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-sm sm:text-base text-center"
+                    >
+                      Buy Now
+                    </a>
+                    <button
+                      onClick={() => handleDetails(product._id)}
+                      className="bg-blue-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto text-sm sm:text-base"
+                    >
+                      Details
+                    </button>
                   </div>
                 </div>
-              );
-            })
+              </div>
+            ))
           ) : (
             <div className="text-center col-span-full text-gray-500">No products found.</div>
           )}
