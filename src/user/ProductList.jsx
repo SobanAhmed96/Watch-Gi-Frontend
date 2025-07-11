@@ -61,10 +61,11 @@ const ProductList = ({ category }) => {
             return (
               <motion.div
                 key={product._id}
-                className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl"
+                className="bg-white shadow-lg rounded-2xl overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-xl cursor-pointer"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1, duration: 0.6 }}
+                onClick={() => handleDetails(product._id)}
               >
                 <Carousel
                   showThumbs={false}
@@ -73,7 +74,7 @@ const ProductList = ({ category }) => {
                   infiniteLoop
                   autoPlay
                   interval={3000}
-                  className="rounded-t-2xl"
+                  className="rounded-t-2xl pointer-events-none" // Disable interaction on carousel to make whole card clickable
                 >
                   {images.map((imgUrl, imgIdx) => (
                     <motion.div
@@ -94,20 +95,24 @@ const ProductList = ({ category }) => {
                 <div className="p-4 text-center">
                   <h3 className="text-lg font-semibold mb-1">{product.title}</h3>
                   <p className="text-gray-600 mb-2">Rs: {product.price}</p>
-                  <div className="flex justify-center gap-2 flex-wrap">
+                  <div className="flex flex-col sm:flex-row justify-center gap-2">
                     <a
                       href={`https://wa.me/923172358782?text=Hi, I'm interested in the ${encodeURIComponent(
                         product.title
                       )} watch. ${product.productImage}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
+                      onClick={(e) => e.stopPropagation()} // Prevent card click
+                      className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition w-full sm:w-auto text-center"
                     >
                       Buy Now
                     </a>
                     <button
-                      onClick={() => handleDetails(product._id)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDetails(product._id);
+                      }}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition w-full sm:w-auto"
                     >
                       Details
                     </button>
